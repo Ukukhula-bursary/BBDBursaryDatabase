@@ -36,7 +36,7 @@ VALUES ('Yes'), ('No');
 INSERT INTO Statuses (Status)
 VALUES ('Submitted'), ('Under Review'), ('Accepted'), ('Rejected');
 
-INSERT INTO Universities (UniversityName, IsActiveID)
+INSERT INTO Universities (UniversityName, IsActiveRecepientID)
 VALUES 
 ('University of Cape Town', 1),
 ('University of the Witwatersrand', 1),
