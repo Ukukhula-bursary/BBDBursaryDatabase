@@ -4,8 +4,8 @@ BEGIN
 END;
 GO
 
-USE BBDUkukhulaDB;
-GO
+--USE BBDUkukhulaDB;
+--GO
 
 
 -- create Ethnicities table
@@ -59,7 +59,8 @@ CREATE TABLE [dbo].[Statuses]
 	[Status] CHAR(12) NOT NULL,
  
 	CONSTRAINT PK_StatusID 
-		PRIMARY KEY CLUSTERED ([StatusID])
+		PRIMARY KEY CLUSTERED ([StatusID]),
+	CONSTRAINT [UNQ_Status] UNIQUE ([Status])
 );
 GO
 
@@ -72,7 +73,8 @@ CREATE TABLE [dbo].[IsActive]
 	[IsActiveStatus] CHAR(3) NOT NULL,
   
 	CONSTRAINT PK_IsActiveID 
-		PRIMARY KEY CLUSTERED ([IsActiveID])
+		PRIMARY KEY CLUSTERED ([IsActiveID]),
+	CONSTRAINT [UNQ_IsActiveStatus] UNIQUE ([IsActiveStatus])
 );
 GO
 
@@ -147,7 +149,8 @@ CREATE TABLE [dbo].[Universities]
 		PRIMARY KEY CLUSTERED ([UniversityID]),
 	CONSTRAINT FK_University_IsActiveID
 		FOREIGN KEY([IsActiveRecepientID])
-		REFERENCES [dbo].[IsActive]([IsActiveID])
+		REFERENCES [dbo].[IsActive]([IsActiveID]),
+	CONSTRAINT [UNQ_UniversityName] UNIQUE ([UniversityName])
 );
 GO
 
@@ -269,7 +272,8 @@ CREATE TABLE [dbo].[Students]
 		REFERENCES [dbo].[Universities]([UniversityID]),
 	CONSTRAINT FK_Students_DepartmentID
 		FOREIGN KEY ([DepartmentID]) 
-		REFERENCES [dbo].[Departments]([DepartmentID])
+		REFERENCES [dbo].[Departments]([DepartmentID]),
+	CONSTRAINT [UNQ_IDNumber] UNIQUE ([IDNumber])
 
 );
 GO
