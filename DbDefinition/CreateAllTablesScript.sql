@@ -109,7 +109,7 @@ CREATE TABLE [dbo].[Contacts]
 	CONSTRAINT [CHK_PhoneNumber] CHECK(ISNUMERIC(PhoneNumber) = 1),
 	CONSTRAINT [UNQ_PhoneNumber] UNIQUE([PhoneNumber]),
 	CONSTRAINT [UNQ_Email] UNIQUE([Email]),
-	CONSTRAINT [CHK_PhoneNumberLength] CHECK (LEN(TRIM([PhoneNumber])) = 13)
+	CONSTRAINT [CHK_PhoneNumberLength] CHECK (LEN(TRIM([PhoneNumber])) = 10)
 );
 GO
 
