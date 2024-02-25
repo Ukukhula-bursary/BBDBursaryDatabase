@@ -108,7 +108,8 @@ CREATE TABLE [dbo].[Contacts]
 		PRIMARY KEY CLUSTERED ([ContactID]),
 	CONSTRAINT [CHK_PhoneNumber] CHECK(ISNUMERIC(PhoneNumber) = 1),
 	CONSTRAINT [UNQ_PhoneNumber] UNIQUE([PhoneNumber]),
-	CONSTRAINT [UNQ_Email] UNIQUE([Email])
+	CONSTRAINT [UNQ_Email] UNIQUE([Email]),
+	CONSTRAINT [CHK_PhoneNumberLength] CHECK (LEN(TRIM([PhoneNumber])) = 13)
 );
 GO
 
@@ -243,7 +244,8 @@ CREATE TABLE [dbo].[UniversityAllocation]
 		REFERENCES [dbo].[Universities]([UniversityID]),
 	CONSTRAINT FK_UniversityAllocation_BursaryDetailsID
 		FOREIGN KEY ([BursaryDetailsID])
-		REFERENCES [dbo].[BursaryDetails]([BursaryDetailsID])
+		REFERENCES [dbo].[BursaryDetails]([BursaryDetailsID]),
+	CONSTRAINT [CHK_Amount] CHECK([Amount] > 0)
 );
 GO
 
@@ -273,7 +275,8 @@ CREATE TABLE [dbo].[Students]
 	CONSTRAINT FK_Students_DepartmentID
 		FOREIGN KEY ([DepartmentID]) 
 		REFERENCES [dbo].[Departments]([DepartmentID]),
-	CONSTRAINT [UNQ_IDNumber] UNIQUE ([IDNumber])
+	CONSTRAINT [UNQ_IDNumber] UNIQUE ([IDNumber]),
+	CONSTRAINT [CHK_IDNumberLength] CHECK (LEN(TRIM([IDNumber])) = 13)
 
 );
 GO
