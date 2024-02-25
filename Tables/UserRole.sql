@@ -1,6 +1,0 @@
-CREATE TABLE [dbo].[UserRole]
-(
-  [ID] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-  [Role] VARCHAR(20) NOT NULL
-)
-GO
