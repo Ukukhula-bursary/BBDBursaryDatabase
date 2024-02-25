@@ -50,6 +50,32 @@ CREATE TABLE [dbo].[Departments]
 );
 GO
 
+-- create Statuses table
+
+IF OBJECT_ID('[dbo].[Statuses]') IS NULL
+CREATE TABLE [dbo].[Statuses]
+(
+	[StatusID] INT IDENTITY(1,1) NOT NULL,
+	[Status] CHAR(12) NOT NULL,
+ 
+	CONSTRAINT PK_StatusID 
+		PRIMARY KEY CLUSTERED ([StatusID])
+);
+GO
+
+-- create IsActive table
+
+IF OBJECT_ID('[dbo].[IsActive]') IS NULL
+CREATE TABLE [dbo].[IsActive]
+(
+	[IsActiveID] INT IDENTITY(1,1) NOT NULL,
+	[IsActiveStatus] CHAR(3) NOT NULL,
+  
+	CONSTRAINT PK_IsActiveID 
+		PRIMARY KEY CLUSTERED ([IsActiveID])
+);
+GO
+
 -- create BursaryDetails table
 
 IF OBJECT_ID('[dbo].[BursaryDetails]') IS NULL
@@ -82,31 +108,7 @@ CREATE TABLE [dbo].[Contacts]
 );
 GO
 
--- create Statuses table
 
-IF OBJECT_ID('[dbo].[Statuses]') IS NULL
-CREATE TABLE [dbo].[Statuses]
-(
-	[StatusID] INT IDENTITY(1,1) NOT NULL,
-	[Status] CHAR(12) NOT NULL,
- 
-	CONSTRAINT PK_StatusID 
-		PRIMARY KEY CLUSTERED ([StatusID])
-);
-GO
-
--- create IsActive table
-
-IF OBJECT_ID('[dbo].[IsActive]') IS NULL
-CREATE TABLE [dbo].[IsActive]
-(
-	[IsActiveID] INT IDENTITY(1,1) NOT NULL,
-	[IsActiveStatus] CHAR(3) NOT NULL,
-  
-	CONSTRAINT PK_IsActiveID 
-		PRIMARY KEY CLUSTERED ([IsActiveID])
-);
-GO
 
 -- create Users table
 
@@ -137,12 +139,12 @@ CREATE TABLE [dbo].[Universities]
 (
 	[UniversityID] INT IDENTITY(1,1) NOT NULL,
 	[UniversityName] VARCHAR(100) NOT NULL,
-	[IsActiveID] INT NOT NULL,
+	[IsActiveRecepientID] INT NOT NULL,
 
 	CONSTRAINT PK_UniversityID
 		PRIMARY KEY CLUSTERED ([UniversityID]),
 	CONSTRAINT FK_University_IsActiveID
-		FOREIGN KEY([IsActiveID])
+		FOREIGN KEY([IsActiveRecepientID])
 		REFERENCES [dbo].[IsActive]([IsActiveID])
 );
 GO
@@ -284,6 +286,7 @@ CREATE TABLE [dbo].[StudentApplications]
 	[ReviewerComment] TEXT NOT NULL DEFAULT 'N/A',
 	[Date] DATE NOT NULL DEFAULT GETDATE(),
 	[UniversityStaffID] INT NOT NULL,
+	[BursaryDetailsID] INT NOT NULL
 
 	CONSTRAINT PK_StudentApplicationID 
 		PRIMARY KEY CLUSTERED ([StudentApplicationID]),
@@ -302,7 +305,10 @@ CREATE TABLE [dbo].[StudentApplications]
 		FOREIGN KEY ([UniversityStaffID]) 
 		REFERENCES [dbo].[UniversityStaff]([UniversityStaffID]),
 	CONSTRAINT [CHK_DateBeforeOrToday_StudentApp] CHECK([Date] <= CAST(GETDATE() as date)),
-	CONSTRAINT [CHK_DateAfter2019_StudentApp] CHECK([Date] >= CAST('01/01/2020' as date))
+	CONSTRAINT [CHK_DateAfter2019_StudentApp] CHECK([Date] >= CAST('01/01/2020' as date)),
+	CONSTRAINT FK_StudentApplications_BursaryDetailsID 
+		FOREIGN KEY ([BursaryDetailsID])
+		REFERENCES [dbo].[BursaryDetails]([BursaryDetailsID])
 );
 GO
 
