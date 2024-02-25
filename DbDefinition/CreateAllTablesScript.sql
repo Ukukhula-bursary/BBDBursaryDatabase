@@ -104,7 +104,9 @@ CREATE TABLE [dbo].[Contacts]
 
 	CONSTRAINT PK_ContactID
 		PRIMARY KEY CLUSTERED ([ContactID]),
-	CONSTRAINT [CHK_PhoneNumber] CHECK(ISNUMERIC(PhoneNumber) = 1)
+	CONSTRAINT [CHK_PhoneNumber] CHECK(ISNUMERIC(PhoneNumber) = 1),
+	CONSTRAINT [UNQ_PhoneNumber] UNIQUE([PhoneNumber]),
+	CONSTRAINT [UNQ_Email] UNIQUE([Email])
 );
 GO
 
