@@ -314,7 +314,7 @@ CREATE TABLE [dbo].[StudentApplications]
 		FOREIGN KEY ([UniversityStaffID]) 
 		REFERENCES [dbo].[UniversityStaff]([UniversityStaffID]),
 	CONSTRAINT [CHK_DateBeforeOrToday_StudentApp] CHECK([Date] <= CAST(GETDATE() as date)),
-	CONSTRAINT [CHK_DateAfter2019_StudentApp] CHECK([Date] >= CAST('01/01/2020' as date)),
+	CONSTRAINT [CHK_DateAfterOct2019_StudentApp] CHECK([Date] >= CAST('01/10/2019' as date)),
 	CONSTRAINT FK_StudentApplications_BursaryDetailsID 
 		FOREIGN KEY ([BursaryDetailsID])
 		REFERENCES [dbo].[BursaryDetails]([BursaryDetailsID])
