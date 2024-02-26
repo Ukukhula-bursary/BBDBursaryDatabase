@@ -29,5 +29,5 @@ BEGIN
     VALUES(@userID,userRole);
 
   
-    SELECT @userID AS NewUserID;
+    SELECT @user AS NewUserID;
 END;
