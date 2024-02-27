@@ -64,19 +64,19 @@ CREATE TABLE [dbo].[Statuses]
 );
 GO
 
--- create IsActive table
+---- create IsActive table
 
-IF OBJECT_ID('[dbo].[IsActive]') IS NULL
-CREATE TABLE [dbo].[IsActive]
-(
-	[IsActiveID] INT IDENTITY(1,1) NOT NULL,
-	[IsActiveStatus] CHAR(3) NOT NULL,
+--IF OBJECT_ID('[dbo].[IsActive]') IS NULL
+--CREATE TABLE [dbo].[IsActive]
+--(
+--	[IsActiveID] INT IDENTITY(1,1) NOT NULL,
+--	[IsActiveStatus] CHAR(3) NOT NULL,
   
-	CONSTRAINT PK_IsActiveID 
-		PRIMARY KEY CLUSTERED ([IsActiveID]),
-	CONSTRAINT [UNQ_IsActiveStatus] UNIQUE ([IsActiveStatus])
-);
-GO
+--	CONSTRAINT PK_IsActiveID 
+--		PRIMARY KEY CLUSTERED ([IsActiveID]),
+--	CONSTRAINT [UNQ_IsActiveStatus] UNIQUE ([IsActiveStatus])
+--);
+--GO
 
 -- create BursaryDetails table
 
@@ -124,16 +124,13 @@ CREATE TABLE [dbo].[Users]
 	[FirstName] VARCHAR(50) NOT NULL,
 	[LastName] VARCHAR(50) NOT NULL,
 	[ContactID] INT NOT NULL,
-	[IsActiveID] INT NOT NULL,
+	[IsActiveUser] BIT NOT NULL,
   
 	CONSTRAINT PK_UserID
 		PRIMARY KEY CLUSTERED ([UserID]),
 	CONSTRAINT FK_Users_ContactID 
 		FOREIGN KEY ([ContactID]) 
-		REFERENCES [dbo].[Contacts]([ContactID]),
-	CONSTRAINT FK_Users_IsActiveID
-		FOREIGN KEY ([IsActiveID])
-		REFERENCES [dbo].[IsActive]([IsActiveID])
+		REFERENCES [dbo].[Contacts]([ContactID])
 );
 GO
 
@@ -144,13 +141,10 @@ CREATE TABLE [dbo].[Universities]
 (
 	[UniversityID] INT IDENTITY(1,1) NOT NULL,
 	[UniversityName] VARCHAR(100) NOT NULL,
-	[IsActiveRecepientID] INT NOT NULL,
+	[IsActiveRecipient] BIT NOT NULL,
 
 	CONSTRAINT PK_UniversityID
 		PRIMARY KEY CLUSTERED ([UniversityID]),
-	CONSTRAINT FK_University_IsActiveID
-		FOREIGN KEY([IsActiveRecepientID])
-		REFERENCES [dbo].[IsActive]([IsActiveID]),
 	CONSTRAINT [UNQ_UniversityName] UNIQUE ([UniversityName])
 );
 GO
