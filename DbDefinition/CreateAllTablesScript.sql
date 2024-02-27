@@ -4,8 +4,8 @@ BEGIN
 END;
 GO
 
-USE BBDUkukhulaDB;
-GO
+--USE BBDUkukhulaDB;
+--GO
 
 
 -- create Ethnicities table
@@ -59,7 +59,8 @@ CREATE TABLE [dbo].[Statuses]
 	[Status] CHAR(12) NOT NULL,
  
 	CONSTRAINT PK_StatusID 
-		PRIMARY KEY CLUSTERED ([StatusID])
+		PRIMARY KEY CLUSTERED ([StatusID]),
+	CONSTRAINT [UNQ_Status] UNIQUE ([Status])
 );
 GO
 
@@ -72,7 +73,8 @@ CREATE TABLE [dbo].[IsActive]
 	[IsActiveStatus] CHAR(3) NOT NULL,
   
 	CONSTRAINT PK_IsActiveID 
-		PRIMARY KEY CLUSTERED ([IsActiveID])
+		PRIMARY KEY CLUSTERED ([IsActiveID]),
+	CONSTRAINT [UNQ_IsActiveStatus] UNIQUE ([IsActiveStatus])
 );
 GO
 
@@ -106,7 +108,8 @@ CREATE TABLE [dbo].[Contacts]
 		PRIMARY KEY CLUSTERED ([ContactID]),
 	CONSTRAINT [CHK_PhoneNumber] CHECK(ISNUMERIC(PhoneNumber) = 1),
 	CONSTRAINT [UNQ_PhoneNumber] UNIQUE([PhoneNumber]),
-	CONSTRAINT [UNQ_Email] UNIQUE([Email])
+	CONSTRAINT [UNQ_Email] UNIQUE([Email]),
+	CONSTRAINT [CHK_PhoneNumberLength] CHECK (LEN(TRIM([PhoneNumber])) = 10)
 );
 GO
 
@@ -147,7 +150,8 @@ CREATE TABLE [dbo].[Universities]
 		PRIMARY KEY CLUSTERED ([UniversityID]),
 	CONSTRAINT FK_University_IsActiveID
 		FOREIGN KEY([IsActiveRecepientID])
-		REFERENCES [dbo].[IsActive]([IsActiveID])
+		REFERENCES [dbo].[IsActive]([IsActiveID]),
+	CONSTRAINT [UNQ_UniversityName] UNIQUE ([UniversityName])
 );
 GO
 
@@ -240,7 +244,8 @@ CREATE TABLE [dbo].[UniversityAllocation]
 		REFERENCES [dbo].[Universities]([UniversityID]),
 	CONSTRAINT FK_UniversityAllocation_BursaryDetailsID
 		FOREIGN KEY ([BursaryDetailsID])
-		REFERENCES [dbo].[BursaryDetails]([BursaryDetailsID])
+		REFERENCES [dbo].[BursaryDetails]([BursaryDetailsID]),
+	CONSTRAINT [CHK_Amount] CHECK([Amount] > 0)
 );
 GO
 
@@ -269,7 +274,9 @@ CREATE TABLE [dbo].[Students]
 		REFERENCES [dbo].[Universities]([UniversityID]),
 	CONSTRAINT FK_Students_DepartmentID
 		FOREIGN KEY ([DepartmentID]) 
-		REFERENCES [dbo].[Departments]([DepartmentID])
+		REFERENCES [dbo].[Departments]([DepartmentID]),
+	CONSTRAINT [UNQ_IDNumber] UNIQUE ([IDNumber]),
+	CONSTRAINT [CHK_IDNumberLength] CHECK (LEN(TRIM([IDNumber])) = 13)
 
 );
 GO
@@ -307,7 +314,7 @@ CREATE TABLE [dbo].[StudentApplications]
 		FOREIGN KEY ([UniversityStaffID]) 
 		REFERENCES [dbo].[UniversityStaff]([UniversityStaffID]),
 	CONSTRAINT [CHK_DateBeforeOrToday_StudentApp] CHECK([Date] <= CAST(GETDATE() as date)),
-	CONSTRAINT [CHK_DateAfter2019_StudentApp] CHECK([Date] >= CAST('01/01/2020' as date)),
+	CONSTRAINT [CHK_DateAfterOct2019_StudentApp] CHECK([Date] >= CAST('01/10/2019' as date)),
 	CONSTRAINT FK_StudentApplications_BursaryDetailsID 
 		FOREIGN KEY ([BursaryDetailsID])
 		REFERENCES [dbo].[BursaryDetails]([BursaryDetailsID])
