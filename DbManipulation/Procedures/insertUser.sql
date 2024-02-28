@@ -23,8 +23,8 @@ BEGIN
         SET @ContactID = SCOPE_IDENTITY();
 
         -- Insert into Users table with the obtained ContactID
-        INSERT INTO Users (FirstName, LastName, ContactID, IsActiveID)
-        VALUES (@FirstName, @LastName, @ContactID, @IsActive);
+        INSERT INTO Users (FirstName, LastName, ContactID, IsActiveUser)
+        VALUES (@FirstName, @LastName, @ContactID, @IsActiveUser);
 
         SET @UserID = SCOPE_IDENTITY();
 
@@ -41,3 +41,6 @@ BEGIN
         THROW
     END CATCH;
 END;
+
+--DROP PROC AddUser
+--GO
