@@ -4,7 +4,7 @@ CREATE PROCEDURE UpdateUser
     @LastName VARCHAR(50),
     @PhoneNumber VARCHAR(20),
     @Email VARCHAR(100),
-    @IsActive INT
+    @IsActiveUser BIT
 AS
 BEGIN
     SET NOCOUNT ON;

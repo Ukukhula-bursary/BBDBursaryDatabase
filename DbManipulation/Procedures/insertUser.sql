@@ -3,31 +3,41 @@ CREATE PROCEDURE AddUser
     @LastName VARCHAR(50),
     @PhoneNumber VARCHAR(20),
     @Email VARCHAR(100),
-    @IsActive INT,
-    @userRole INT
+    @IsActiveUser BIT,
+    @UserRole INT
 AS
 BEGIN
     SET NOCOUNT ON;
+    
+    BEGIN TRY
+        BEGIN TRANSACTION;
 
-    DECLARE @ContactID INT;
-    DECLARE @userID INT;
+        DECLARE @ContactID INT;
+        DECLARE @UserID INT;
 
-    -- Insert into Contacts table
-    INSERT INTO Contacts (PhoneNumber, Email)
-    VALUES (@PhoneNumber, @Email);
+        -- Insert into Contacts table
+        INSERT INTO Contacts (PhoneNumber, Email)
+        VALUES (@PhoneNumber, @Email);
 
-    -- Get the ID of the newly inserted contact
-    SET @ContactID = SCOPE_IDENTITY();
+        -- Get the ID of the newly inserted contact
+        SET @ContactID = SCOPE_IDENTITY();
 
-    -- Insert into Users table with the obtained ContactID
-    INSERT INTO Users (FirstName, LastName, ContactID, IsActiveID)
-    VALUES (@FirstName, @LastName, @ContactID, @IsActive);
+        -- Insert into Users table with the obtained ContactID
+        INSERT INTO Users (FirstName, LastName, ContactID, IsActiveID)
+        VALUES (@FirstName, @LastName, @ContactID, @IsActive);
 
-    SET @userID= SCOPE_IDENTITY();
+        SET @UserID = SCOPE_IDENTITY();
 
-    INSERT INTO UserRoles(UserID,RoleID)
-    VALUES(@userID,userRole);
+        -- Insert into UserRoles table
+        INSERT INTO UserRoles(UserID, RoleID)
+        VALUES(@UserID, @UserRole);
 
-  
-    SELECT @user AS NewUserID;
+        COMMIT;
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK;
+
+        THROW
+    END CATCH;
 END;
