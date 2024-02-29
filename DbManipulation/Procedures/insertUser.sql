@@ -1,10 +1,11 @@
 CREATE PROCEDURE AddUser
     @FirstName VARCHAR(50),
     @LastName VARCHAR(50),
-    @PhoneNumber VARCHAR(20),
+    @PhoneNumber CHAR(10),
     @Email VARCHAR(100),
     @IsActiveUser BIT,
-    @UserRole INT
+    @RoleID INT,
+	@NewUserID INT OUTPUT
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -23,14 +24,14 @@ BEGIN
         SET @ContactID = SCOPE_IDENTITY();
 
         -- Insert into Users table with the obtained ContactID
-        INSERT INTO Users (FirstName, LastName, ContactID, IsActiveID)
-        VALUES (@FirstName, @LastName, @ContactID, @IsActive);
+        INSERT INTO Users (FirstName, LastName, ContactID, IsActiveUser)
+        VALUES (@FirstName, @LastName, @ContactID, @IsActiveUser);
 
         SET @UserID = SCOPE_IDENTITY();
 
         -- Insert into UserRoles table
-        INSERT INTO UserRoles(UserID, RoleID)
-        VALUES(@UserID, @UserRole);
+        INSERT INTO UserRole(UserID, RoleID)
+        VALUES(@UserID, @RoleID);
 
         COMMIT;
     END TRY
@@ -40,4 +41,6 @@ BEGIN
 
         THROW
     END CATCH;
+
+	SELECT @NewUserID = @UserID
 END;

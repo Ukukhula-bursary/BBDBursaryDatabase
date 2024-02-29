@@ -2,7 +2,7 @@ CREATE PROCEDURE UpdateUser
     @UserID INT,
     @FirstName VARCHAR(50),
     @LastName VARCHAR(50),
-    @PhoneNumber VARCHAR(20),
+    @PhoneNumber CHAR(10),
     @Email VARCHAR(100),
     @IsActiveUser BIT
 AS
@@ -13,7 +13,7 @@ BEGIN
     UPDATE Users
     SET FirstName = @FirstName,
         LastName = @LastName,
-        IsActiveID = @IsActive
+        IsActiveUser = @IsActiveUser
     WHERE UserID = @UserID;
 
     -- Update Contacts table
