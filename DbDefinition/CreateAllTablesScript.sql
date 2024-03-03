@@ -239,7 +239,8 @@ CREATE TABLE [dbo].[UniversityAllocation]
 	CONSTRAINT FK_UniversityAllocation_BursaryDetailsID
 		FOREIGN KEY ([BursaryDetailsID])
 		REFERENCES [dbo].[BursaryDetails]([BursaryDetailsID]),
-	CONSTRAINT [CHK_Amount] CHECK([Amount] > 0)
+	CONSTRAINT [CHK_Amount] CHECK([Amount] > 0),
+	CONSTRAINT [UNQ_UniversityID_BursaryDetailsID] UNIQUE([UniversityID], [BursaryDetailsID])
 );
 GO
 
